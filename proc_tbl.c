@@ -59,6 +59,7 @@ proc_t *insert_proc(proc_t *bucket, proc_t *p)
         } else {
             memcpy(proc->exe, p->exe, COMM_MAX);
             proc->start_time = p->start_time;
+            free(p);
         }
     }
     return bucket;

@@ -1,5 +1,6 @@
 #include <sys/types.h>
 #include <sys/socket.h>
+#include <sys/select.h>
 #include <linux/netlink.h>
 #include <linux/connector.h>
 #include <linux/cn_proc.h>

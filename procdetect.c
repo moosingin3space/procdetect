@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <strings.h>
+#include <string.h>
 #include <errno.h>
 #include <stdlib.h>
 
@@ -64,7 +65,14 @@ int connect_to_netlink()
     msg->ack = 0;
     msg->flags = 0;
     msg->len = sizeof(int);
-    *(int*)msg->data = PROC_CN_MCAST_LISTEN;
+    // Workaround to eliminate type-punning warnings.
+    union
+    {
+        char theChars[4];
+        int theInt;
+    } msgData;
+    msgData.theInt = PROC_CN_MCAST_LISTEN;
+    memmove(msg->data, msgData.theChars, 4);
 
     if (send(nl_sock, hdr, hdr->nlmsg_len, 0) == -1) {
         perror("failed to register for process events");

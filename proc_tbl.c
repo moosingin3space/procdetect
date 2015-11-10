@@ -76,7 +76,7 @@ proc_t *remove_proc(proc_t *bucket, pid_t pid)
     proc_t *prev = NULL;
     while (runner != NULL)
     {
-        if (runner->pid == pid)
+        if (runner->pid == pid && prev != NULL)
         {
             prev->next = runner->next;
             free(runner);
